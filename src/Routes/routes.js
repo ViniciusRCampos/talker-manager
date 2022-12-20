@@ -1,4 +1,3 @@
-const { query } = require('express');
 const express = require('express');
 const { getTalkers, createToken, validateLogin, validateToken,
     validateName,
