@@ -1,5 +1,5 @@
 const express = require('express');
-const { getTalkers, createToken } = require('../../utils');
+const { getTalkers, createToken, validateLogin } = require('../../utils');
 
 const router = express.Router();
 
@@ -21,7 +21,7 @@ router.get('/talker/:id', async (req, res) => {
     );
 });
 
-router.post('/login', async (_req, res) => {
+router.post('/login', validateLogin, async (_req, res) => {
     const token = { token: createToken() };
     // console.log(createToken());
     res.status(200).json(token);
