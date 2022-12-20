@@ -1,9 +1,11 @@
 const express = require('express');
+const { router } = require('./Routes/routes');
 
 // Vinicius Campos
 
 const app = express();
 app.use(express.json());
+app.use(router);
 
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
