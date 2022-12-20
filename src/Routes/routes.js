@@ -68,6 +68,17 @@ validateRate, async (req, res) => {
     res.status(200).json(talkers[idTalker]);
 });
 
+router.delete('/talker/:id',
+validateToken,
+ async (req, res) => {
+    const { id } = req.params;
+    const talkers = await getTalkers();
+    const talkerPosition = talkers.findIndex((talker) => talker.id === +id);
+    talkers.splice(talkerPosition, 1);
+    await writeTalker(talkers);
+    res.status(204).json();
+});
+
 module.exports = {
     router,
 };
