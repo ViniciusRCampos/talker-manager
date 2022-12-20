@@ -1,3 +1,4 @@
+const { query } = require('express');
 const express = require('express');
 const { getTalkers, createToken, validateLogin, validateToken,
     validateName,
@@ -11,6 +12,17 @@ router.get('/talker', async (_req, res) => {
     const talkers = await getTalkers();
     // console.log(talkers);
     res.status(200).json(talkers);
+});
+
+router.get('/talker/search', validateToken, async (req, res) => {
+    const { q } = req.query;
+    const talkers = await getTalkers();
+    if (!q || q === '') {
+        return res.status(200).json(talkers);
+      }
+    const searchTalker = talkers.filter((talker) => 
+    talker.name.toLowerCase().includes(q.toLowerCase()));
+    res.status(200).json(searchTalker);
 });
 
 router.get('/talker/:id', async (req, res) => {
