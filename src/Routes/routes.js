@@ -1,5 +1,9 @@
 const express = require('express');
-const { getTalkers, createToken, validateLogin } = require('../../utils');
+const { getTalkers, createToken, validateLogin, validateToken,
+    validateName,
+    validateAge,
+    validateTalk,
+    validateRate, writeTalker } = require('../../utils');
 
 const router = express.Router();
 
@@ -25,6 +29,26 @@ router.post('/login', validateLogin, async (_req, res) => {
     const token = { token: createToken() };
     // console.log(createToken());
     res.status(200).json(token);
+});
+
+router.post('/talker', 
+validateToken,
+validateName,
+validateAge,
+validateTalk,
+validateRate, async (req, res) => {
+    const { name, age, talk } = req.body;
+    const talkers = await getTalkers();
+    const id = talkers.length + 1;
+    const newTalker = {
+        id,
+        name,
+        age,
+        talk,
+    };
+    talkers.push(newTalker);
+    await writeTalker(talkers);
+    res.status(201).json(newTalker);
 });
 
 module.exports = {
