@@ -51,6 +51,23 @@ validateRate, async (req, res) => {
     res.status(201).json(newTalker);
 });
 
+router.put('/talker/:id',
+validateToken,
+validateName,
+validateAge,
+validateTalk,
+validateRate, async (req, res) => {
+    const { id } = req.params;
+    const { name, age, talk } = req.body;
+    const talkers = await getTalkers();
+    const idTalker = talkers.findIndex((talker) => talker.id === +id);
+    talkers[idTalker] = {
+        ...talkers[idTalker], name, age, talk,
+    };
+    await writeTalker(talkers);
+    res.status(200).json(talkers[idTalker]);
+});
+
 module.exports = {
     router,
 };

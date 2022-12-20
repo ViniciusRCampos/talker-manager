@@ -78,11 +78,11 @@ const validateTalk = (req, res, next) => {
     if (!talk) {
         return res.status(400).json({ message: 'O campo "talk" é obrigatório' });
     }
-
+    
     const { watchedAt } = talk;
 
     const validateDate = /^(0[1-9]|1\d|2\d|3[01])\/(0[1-9]|1[0-2])\/(19|20)\d{2}$/;
-    
+
     if (!watchedAt) {
         return res.status(400).json({ message: 'O campo "watchedAt" é obrigatório' });
     }
@@ -96,7 +96,7 @@ const validateTalk = (req, res, next) => {
 const validateRate = (req, res, next) => {
     const { talk } = req.body;
     const { rate } = talk;
-    if (!rate) {
+    if (rate === undefined) {
         return res.status(400).json({ message: 'O campo "rate" é obrigatório' });
     }
     if (+rate > 5 || +rate < 1 || !(Number.isInteger(rate))) {
